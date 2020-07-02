@@ -1,13 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser , BaseUserManager,PermissionsMixin
-# from django.contrib.auth.models import PermissionMixin
 
-#for token creation 
-from django.db.models.signals import post_save, pre_save
+from django.contrib.auth.models import AbstractBaseUser , BaseUserManager,PermissionsMixin
+
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
+
 import random
 import string
-from django.conf import settings
 
 # Create your models here.
 def randomString(stringLength=6):
@@ -55,20 +54,15 @@ class MyAccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser,PermissionsMixin):
     email                   = models.EmailField(verbose_name="email", max_length=60 ,unique=True)
-    # name                    = models.CharField(max_length=60)
-    # contact                 = models.CharField(max_length=15)
     date_joined             = models.DateTimeField(verbose_name= 'date joined' ,auto_now_add=True)
-    # last_login              = models.DateTimeField(verbose_name='last login' , auto_now=True)
     is_admin                = models.BooleanField(default=False)
-    # is_active               = models.BooleanField(default=True)
     is_staff                = models.BooleanField(default=False)
     is_superuser            = models.BooleanField(default = False)
 
     objects = MyAccountManager()
 
     USERNAME_FIELD = 'email'
-    # REQUIRED_FIELDS = ['name' , 'contact' ]
-
+  
     def __str__(self):
         return self.email
     
@@ -125,7 +119,11 @@ class Profile(models.Model):
         upload_to =upload_location ,
         blank=True, null=True
         )
-    gender                  = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    gender                  = models.CharField(
+        max_length=1, 
+        choices=GENDER_CHOICES
+        )
+    facebook_user           = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -136,6 +134,5 @@ class Profile(models.Model):
 def post_save_avatar(sender, instance, *args, **kwargs):
      if not instance.image:
          instance.image = set_avatar(instance)
-
 
 

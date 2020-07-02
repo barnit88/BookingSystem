@@ -3,24 +3,13 @@ from rest_framework.serializers import (
     ModelSerializer,
     SerializerMethodField
 )
-
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from User.models import (
     Account,
     Profile
 )
+from User.api.jwtToken import give_token
 
-
-
-class ProfileSerializer(ModelSerializer):
-    # user = SerializerMethodField('get_email_from_user')
-
-    class Meta:
-        model = Profile
-        fields = ['name' , 'image' ]
-    
-    # def get_email_from_user(self, profile):
-    #     email = profile.user.email
-    #     return email
 
 
 class AccountSerializer(ModelSerializer):
@@ -28,7 +17,6 @@ class AccountSerializer(ModelSerializer):
     
     class Meta:
         model = Account
-        # fields = ['email', 'profiles']
         fields = ['email' ,'password']
 
 class AccountCreateSerializer(ModelSerializer):
@@ -46,5 +34,20 @@ class AccountCreateSerializer(ModelSerializer):
         account.set_password(user['password'])
         account.save()
         profile = Profile.objects.create(**validated_data)
+        profile.user = account
+        profile.save()
         return profile
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    
+    def validate(self,attr):
+        # print(attr) #login credentials are obtained
+        user = dict(attr)
+        # data = super().validate(attr)  yesare attribute pass garda data leh token pair dinxa
+        email = user['email']
+        account = Account.objects.get(email=email)
+        profile = account.profiles
+        data = give_token(profile)
+        print(data['refresh'][0])
+        return data
 

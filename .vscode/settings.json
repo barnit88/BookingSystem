@@ -1,0 +1,20 @@
+{  
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django",
+        "--errors-only", 
+        "--disable=W0312"
+        ],
+         
+    "files.autoSave": "afterDelay",
+    "editor.suggestSelection": "first",
+    "editor.minimap.enabled": true,
+    "workbench.colorTheme": "Monokai",
+
+    "editor.fontSize": 12,
+ 
+    "python.pythonPath": "enviroment\\Scripts\\python.exe",
+    "git.ignoreLimitWarning": true,
+
+}
