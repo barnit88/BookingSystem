@@ -10,35 +10,34 @@ function Login(props) {
     
     const [email,setemail] = useState('');
     const [password,setpassword] = useState('');
-    const [test , setTest] = useState(false);
+    const [validate , setValidate] = useState(false);
+
     let history = useHistory();
 
-    
-    const redirect = () => {
-        const token = localStorage.getItem('access')
-        if (token) {
-            history.push('/')
-        }   
-    }
-    
     useEffect(() => {
-        redirect()
-    },[props]);
-    
+
+        const token = localStorage.getItem('access');
+        const redirect = () => {
+            if (token) {
+                history.push('/menu/')
+            } 
+        }
+        redirect(); 
+        
+    },[history,props ])
+
+
     const handleSubmit = e => {
         e.preventDefault();
-        console.log("-sadas-asdas-das-d-a-sd-a-s-ad")
-        console.log(props)
-        // setTest(!test);
         if (email ==='' || password === '') {
-            if (test === false){
-                setTest(!test)
+            if (validate === false){
+                setValidate(!validate);
             }
         }
         else{      
-            props.login(email,password)
-            if (test === true){
-                setTest(!test)
+            props.login(email,password);
+            if (validate === true){
+                setValidate(!validate);
             }
         }
     };
@@ -46,40 +45,45 @@ function Login(props) {
 
     return(
         <div>
-        {redirect}
+
         <div>
             <NavBar />
         </div>
         
-        <div class ="loginform" onSubmit ={handleSubmit}>            
+        <div className ="loginform" onSubmit ={handleSubmit}>            
+            
             <form>
-                <div class="form-group">
-                    <label for="formGroupExampleInput">Email</label>
-                    <input type="email" class="form-control" id="formGroupExampleInput" 
+            
+                <div className="form-group">
+                    <label htmlFor="formGroupExampleInput">Email</label>
+                    <input type="email" className="form-control" id="formGroupExampleInput" 
                     value = {email}
                     onChange={(e)=>{setemail(e.target.value)}}
                     placeholder="Email" />
                  </div>
-                <div class="form-group">
-                    <label for="formGroupExampleInput2">Password</label>
-                    <input type="password" class="form-control" id="formGroupExampleInput2" 
+            
+                <div className="form-group">
+                    <label htmlFor="formGroupExampleInput2">Password</label>
+                    <input type="password" className="form-control" id="formGroupExampleInput2" 
                     value = {password}
                     onChange={(e) => setpassword(e.target.value)}
                     placeholder="Password" />
                 </div>
+                
                 <div>
                 <button type="submit" 
-                class="btn btn-outline-warning">
+                className="btn btn-outline-warning">
                     Login
                 </button> 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Link>Sign Up</Link>
+                <Link to = '/signup/'>Sign Up</Link>
                 </div>
-                {test?<p>Please Try Again</p>:<p></p> }
+                {validate?<p>Please Try Again</p>:<p></p> }
+            
             </form>
         </div>
 {/*         
-        <div class = "footer">
+        <div className = "footer">
             <Footer/>
         </div>
          */}
@@ -88,19 +92,23 @@ function Login(props) {
     )
 }
 
+
 const mapStateToProps = state => {
     return {
-        loading : state.loading,
-        error : state.error,
-        token : state.token
+        loading     : state.login.loading,
+        error       : state.login.error,
+        token       : state.login.token
     };
 }
+
 
 const mapDispatchToProps =  dispatch => {
     return {
     login : (username,password) => dispatch(authLogin(username,password))       
     };
 }
+
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps

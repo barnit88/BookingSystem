@@ -1,10 +1,12 @@
 import * as actionTypes from '../action/actionType';
 import  { updateObject } from '../utility';
 
-const initialState = {
+
+
+const initialStateData = {
     token : null,
     error: null,
-    loading: false
+    loading: false,
 }
 
 const authStart = (state, action ) => {
@@ -15,6 +17,7 @@ const authStart = (state, action ) => {
 }
 
 const authSuccess = (state , action) => {
+
     return updateObject(state , {
         token: action.token,
         error: null,
@@ -29,18 +32,20 @@ const authFail = (state , action ) => {
     });
 }
 
-// const authLogout = (state, action) => {
-//     return updateObject(state , {
-//         token: null
-//     });
-// }
+const authLogout = (state, action) => {
+    return updateObject(state , {
+        token : null,
+        error: null,
+        loading: false,
+    });
+}
 
-const reducer = (state = initialState ,action ) => {
+const reducer = (state = initialStateData ,action ) => {
     switch (action.type) {
         case actionTypes.AUTH_START     : return authStart(state, action);
         case actionTypes.AUTH_SUCCESS   : return authSuccess(state, action);
         case actionTypes.AUTH_FAIL      : return authFail(state, action);
-        // case actionTypes.AUTH_LOGOUT    : return authLogout(state, action);
+        case actionTypes.AUTH_LOGOUT    : return authLogout(state, action);
         default:
             return state;    
     }

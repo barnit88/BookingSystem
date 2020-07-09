@@ -8,33 +8,33 @@ function ImageCarousel () {
     return(
         <div>
             <div>
-                <div id="carouselFadeExampleIndicators" class="carousel slide carousel-fade fix"   data-ride="carousel">
-                    <div class="carousel-inner h-50 or" role="listbox">
-                        <div class="carousel-item active h-50">
-                            <img class="d-block w-100 yo" src={First}  
+                <div id="carouselFadeExampleIndicators" className="carousel slide carousel-fade fix"   data-ride="carousel">
+                    <div className="carousel-inner h-50 or" role="listbox">
+                        <div className="carousel-item active h-50">
+                            <img className="d-block w-100 yo" src={First}  
                             data-src="holder.js/900x400?theme=social" alt="First slide" />
                         </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src={Second} 
+                        <div className="carousel-item">
+                            <img className="d-block w-100" src={Second} 
                             data-src="holder.js/900x400?theme=industrial" alt="Second slide"/>
                         </div>
                     </div>
                     
-                    <a class="carousel-control-prev" 
+                    <a className="carousel-control-prev" 
                     href="#carouselFadeExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
+                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span className="sr-only">Previous</span>
                     </a>
-                    <a class="carousel-control-next" 
+                    <a className="carousel-control-next" 
                     href="#carouselFadeExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
+                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span className="sr-only">Next</span>
                     </a>
                 </div>  
             </div>
             <div>                
-                <div class="container">
-                    <img src="https://hotelmoonlight.co.uk/wp-content/themes/moonlighthotel/assets/img/circle-half.png" alt="circle" />
+                <div className="container">
+                    {/* <img src="https://hotelmoonlight.co.uk/wp-content/themes/moonlighthotel/assets/img/circle-half.png" alt="circle" /> */}
                         <h1>Welcome to Hotel Moonlight</h1>
                             <p>We are a boutique hotel, situated in an elegant Victorian property in the vibrant and cosmopolitan Borough of Kensington.<br/>
                             A hidden gem, we opened our doors in the summer of 2016 and offer sumptuous rooms.</p>
@@ -46,7 +46,7 @@ function ImageCarousel () {
             {/* Fixex BackGround */}
             <div>
                 <section id="features">
-                    <div class="fixed-wrap">
+                    <div className="fixed-wrap">
                         <div id = "fixed">
                         
                         </div>
@@ -55,19 +55,19 @@ function ImageCarousel () {
             </div>
             {/* Meet The Team */}
             <div>
-                <div class="container-fluid padding">
-                    <div class="row welcome text-center">
-                        <div class = "col-12">
-                            <h1 class = "display-4">Meet The Team</h1>
+                <div className="container-fluid padding">
+                    <div className="row welcome text-center">
+                        <div className = "col-12">
+                            <h1 className = "display-4">Meet The Team</h1>
                         </div>
                         <hr/>
                     </div>
                 </div>
             </div>
             <div>            
-                <div class= "container-fluid padding mt-1">
-                    <div class="row padding">
-                        <div class ="col-lg-6">
+                <div className= "container-fluid padding mt-1">
+                    <div className="row padding">
+                        <div className ="col-lg-6">
                             <h2> If You built it ...</h2>
                             <p> The colummns will automatically statck on top of ecah other when 
                                 the screen s ess than 576px
@@ -79,9 +79,9 @@ function ImageCarousel () {
                             </p>
                             <br/>
                         </div>
-                        <div class="col-lg-6">
+                        <div className="col-lg-6">
                             <img src={Third} style ={{height:"300px",width:"100%"}}
-                             class = "img-fluid" alt="it is" />
+                             className = "img-fluid" alt="it is" />
                         </div>
                     </div>
                 </div>

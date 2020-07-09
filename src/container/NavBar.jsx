@@ -1,30 +1,84 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import {authLogout} from '../store/action/loginAuth'
 
 
-function NavBar() {
+function NavBar(props) {
+    const data = localStorage.getItem('access')
+    var condition;
+    
+    const conditonCheck = () => {
+        return   condition =data?true:false;
+    }
+   
+    conditonCheck();
+    
 
     return (
-        <nav class="navbar fixed-top navbar-dark bg-info d-flex flex-row-reverse">
-            <ul class="nav nav-pills">
+        
+        <nav className="navbar fixed-top navbar-dark bg-info d-flex flex-row-reverse">
+            
+            <ul className="nav nav-pills">
                 <Link to ="/">
-                    <li class="nav-item">
-                        <a class="nav-link text-warning " href="#!">Active</a>
+                    <li className="nav-item">
+                        <button className="btn btn-outline-dark">
+                            Home
+                        </button>
                     </li>
                 </Link>
-                <Link to ="/login">
-                <li class="nav-item">
-                    <a class="nav-link text-warning " href="#!">Login</a>
-                </li>
+             
+                <Link to = "/menu/">
+                    <li className="nav-item">
+                        <button className="btn btn-outline-dark">
+                            Menu
+                        </button>
+                    </li>
                 </Link>
-                <Link>
-                <li class="nav-item">
-                    <a class="nav-link text-warning disabled" href="#!">Disabled</a>
-                </li>
-                </Link>
+                
+                    {
+                        condition
+                        ?
+                        <li className="nav-item">
+                            <Link to ="/">
+                                <button className="btn btn-outline-dark"
+                                onClick={()=>props.logout()} >
+                                    LogOut</button>
+                            </Link>
+                        </li>
+                        :
+                        <li className="nav-item">
+                            <Link to ="/login">
+                                <button className="btn btn-outline-dark">
+                                    Login</button>
+                            </Link>
+                        </li>
+                    }
+            
             </ul> 
         </nav>
     );
 }
 
-export default NavBar;
+
+const mapStateToProps = state => {
+    return {
+        token       : state.login.token
+    };
+}
+
+
+const mapDispatchToProps =  dispatch => {
+    return {
+    logout : () => dispatch(authLogout()),
+           
+    };
+}
+
+
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(NavBar);
+// export default NavBar;
