@@ -1,3 +1,4 @@
+import collections
 from rest_framework.serializers import (
     CharField,
     ModelSerializer,
@@ -8,7 +9,7 @@ from User.models import (
     Account,
     Profile
 )
-from User.api.jwtToken import give_token
+from User.api.jwtToken import ProfileForTokenSerializer
 
 
 
@@ -16,25 +17,25 @@ class AccountSerializer(ModelSerializer):
     password = CharField(write_only='True')
     
     class Meta:
-        model = Account
-        fields = ['email' ,'password']
+        model   = Account
+        fields  = ['email' ,'password']
 
 class AccountCreateSerializer(ModelSerializer):
-    user = AccountSerializer(write_only = 'True')
+    user = AccountSerializer(write_only=True)
 
     class Meta:
-        model = Profile
-        fields = ['name' ,'contact' , 'image', 'gender' , 'user']
+        model   = Profile
+        fields  = ['name' ,'contact' , 'image', 'gender' , 'user']
 
     def create(self, validated_data):
-        d = validated_data.pop('user')
-        user = dict(d)
-        email=user['email']
-        account = Account.objects.create(email=email)
+        d               = validated_data.pop("user")
+        user            = dict(d)
+        email           = user['email']
+        account         = Account.objects.create(email=email)
         account.set_password(user['password'])
         account.save()
-        profile = Profile.objects.create(**validated_data)
-        profile.user = account
+        profile         = Profile.objects.create(**validated_data)
+        profile.user    = account
         profile.save()
         return profile
 
@@ -42,12 +43,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     
     def validate(self,attr):
         # print(attr) #login credentials are obtained
-        user = dict(attr)
-        # data = super().validate(attr)  yesare attribute pass garda data leh token pair dinxa
-        email = user['email']
-        account = Account.objects.get(email=email)
-        profile = account.profiles
-        data = give_token(profile)
-        print(data['refresh'][0])
+        user            = attr
+        data            = super().validate(attr) # yesare attribute pass garda data leh token pair dinxa
+        email           = attr.get('email')
+        account         = Account.objects.get(email=attr.get('email'))
+        profile         = account.profiles
+        serializer      = ProfileForTokenSerializer(profile)
+        data['profile'] =  serializer.data
         return data
 

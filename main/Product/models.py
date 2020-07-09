@@ -1,6 +1,9 @@
 from django.db import models
+
 import random
 import string
+
+from User.models import Profile
 # Create your models here.
 
 def randomString(stringLength=6):
@@ -33,10 +36,10 @@ class Room(models.Model):
         on_delete=models.CASCADE)
     name                    = models.CharField(max_length=45
         )
+    is_booked               = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name
-
 
 
 class RoomImages(models.Model):
@@ -45,7 +48,8 @@ class RoomImages(models.Model):
         related_name='images',
         on_delete=models.CASCADE )
     image                   = models.ImageField(
-        upload_to =upload_location 
+        upload_to =upload_location ,
+        null=True,blank=True
         )
     
     
@@ -53,13 +57,48 @@ class RoomImages(models.Model):
         return self.room.name
 
     
-class BookedRoom(models.Model):
-    room                    = models.OneToOneField(
+class Bookings(models.Model):
+    user                    = models.ForeignKey(
+        Profile,
+        related_name='user_bookings',
+        null=True,
+        on_delete=models.SET_NULL
+    )
+    room                    = models.ForeignKey(
         Room ,
         related_name='bookings',
-        on_delete=models.CASCADE)
+        null=True,
+        on_delete=models.SET_NULL)
     booked_date             = models.DateTimeField(auto_now_add=True)
-
+    check_in                = models.DateTimeField()
+    check_out               = models.DateTimeField()
+    initial_payment         = models.IntegerField()    
     
     def __str__(self):
-        return self.room.name + " " + self.booked_date
+        return self.room.name + " is booked by " + self.user.name
+
+
+# class Transaction(models.Model):
+#     room                    = models.ForeignKey(
+#         Room ,
+#         related_name    = 'transactions' ,
+#         on_delete       =models.SET_NULL ,
+#         null=True
+#         )
+#     user                    = models.ForeignKey(
+#         Profile,
+#         related_name    ='user_transactions',
+#         on_delete       = models.SET_NULL,
+#         null=True
+#         )
+#     booking_date            = models.DateTimeField(auto_now_add=True)
+#     check_in                = models.DateTimeField()
+#     check_out               = models.DateTimeField()
+
+
+class Test(models.Model):
+    room                    = models.ForeignKey(
+        Room ,
+        related_name='test',
+        on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)

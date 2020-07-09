@@ -13,7 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('api', ReterieveVeiw.as_view(), name='token_refresh'),
     path('api/account/', include('User.api.urls' , 'account')), #account api
-    path('api/product/', include('Product.api.urls' , 'account')) #account api
+    path('api/product/', include('Product.api.urls' , 'product')) #account api
 
 ]
 
